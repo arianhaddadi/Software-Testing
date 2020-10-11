@@ -26,7 +26,6 @@ public class PetTest {
 	@Before
 	public void setUp() throws Exception {
 		this.pet = new Pet();
-		this.pet.setBirthDate(LocalDate.of(2000, 5, 24));
 		this.pet.addVisit(new Visit().setDate(LocalDate.of(2003, 3,12)));
 		this.pet.addVisit(new Visit().setDate(LocalDate.of(2019, 7,5)));
 		this.pet.addVisit(new Visit().setDate(LocalDate.of(2008, 5,24)));
