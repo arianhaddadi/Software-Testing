@@ -46,9 +46,41 @@ public class PetTest {
 
     @Test
     public void removeVisit() {
+		assertEquals(this.pet.getVisits().size(), 0);
+
+		Visit visit = new Visit().setDate(LocalDate.of(2019, 7,5));
+		this.pet.addVisit(visit);
+
+		this.pet.removeVisit(visit);
+		assertEquals(this.pet.getVisits().size(), 0);
+
+		visit = new Visit().setDate(LocalDate.of(2019, 4,16));
+		this.pet.addVisit(visit);
+
+		Visit visit2 = new Visit().setDate(LocalDate.of(2019, 7,5));
+		this.pet.addVisit(visit2);
+
+		this.pet.removeVisit(visit);
+		assertEquals(this.pet.getVisits().size(), 1);
+
+		this.pet.removeVisit(visit2);
+		assertEquals(this.pet.getVisits().size(), 0);
     }
 
     @Test
     public void addVisit() {
-    }
+    	assertEquals(this.pet.getVisits().size(), 0);
+
+    	Visit visit = new Visit().setDate(LocalDate.of(2019, 7,5));
+    	this.pet.addVisit(visit);
+
+    	assertEquals(this.pet.getVisits().size(), 1);
+    	assertEquals(this.pet.getVisits().get(0), visit);
+
+    	visit = new Visit().setDate(LocalDate.of(2019, 3,23));
+    	this.pet.addVisit(visit);
+
+		assertEquals(this.pet.getVisits().size(), 2);
+		assertEquals(this.pet.getVisits().get(1), visit);
+	}
 }
