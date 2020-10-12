@@ -123,8 +123,10 @@ public class Pet extends NamedEntity {
 	}
 
 	public void addVisit(Visit visit) {
-		getVisitsInternal().add(visit);
-		visit.setPetId(this.getId());
+		if (visit != null) {
+			getVisitsInternal().add(visit);
+			visit.setPetId(this.getId());
+		}
 	}
 
 }
