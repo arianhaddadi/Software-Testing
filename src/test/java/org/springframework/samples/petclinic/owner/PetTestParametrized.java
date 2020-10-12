@@ -11,7 +11,7 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class PetTest {
+public class PetTestParametrized {
 
 	private Integer age;
 	private List<Visit> expected;
@@ -40,7 +40,7 @@ public class PetTest {
 		visits.add(new Visit().setDate(LocalDate.of(2006, 11,3)));
 	}
 
-	public PetTest(Integer age, List<Visit> expected) {
+	public PetTestParametrized(Integer age, List<Visit> expected) {
 		this.age = age;
 		this.expected = expected;
 	}
