@@ -20,7 +20,7 @@ import static org.junit.Assume.*;
 
 
 @RunWith(Theories.class)
-public class PetTest {
+public class PetTestTheories {
 	private Pet pet;
 
 	@Before
