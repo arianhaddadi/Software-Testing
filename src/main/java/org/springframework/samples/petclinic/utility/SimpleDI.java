@@ -8,16 +8,31 @@ import java.util.concurrent.Callable;
 /**
  * this simple class shows the main idea behind a Dependency Injection library
  */
-public abstract class SimpleDI {
+public class SimpleDI {
 
-	public static SimpleDI getDIContainer() throws Exception {
-		// todo return the singleton instance of your implementation of dependency injection container
-		throw new Exception("not implemented");
+	private static SimpleDI simpleDI;
+	private HashMap<Class<?>, Object> container;
+
+	private SimpleDI() {
+		container = new HashMap<>();
 	}
 
-	public abstract void provideByInstance(Class<?> typeClass, Object instanceOfType);
+	public static SimpleDI getDIContainer() throws Exception {
+		if (simpleDI == null) {
+			simpleDI = new SimpleDI();
+		}
+		return simpleDI;
+	}
 
-	public abstract void provideByAConstructorFunction(Class<?> typeClass, Callable<Object> providerFunction);
+	public void provideByInstance(Class<?> typeClass, Object instanceOfType) {
+		container.put(typeClass, instanceOfType);
+	}
 
-	public abstract Object getInstanceOf(Class<?> requiredType) throws Exception;
+	public void provideByAConstructorFunction(Class<?> typeClass, Callable<Object> providerFunction) throws Exception {
+		container.put(typeClass, providerFunction.call());
+	}
+
+	public Object getInstanceOf(Class<?> requiredType) throws Exception {
+		return container.get(requiredType);
+	}
 }
