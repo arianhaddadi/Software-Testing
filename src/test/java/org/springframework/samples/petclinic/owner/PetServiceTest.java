@@ -26,8 +26,20 @@ public class PetServiceTest {
 	@InjectMocks
 	private PetService petService;
 
+	private Owner ownerMock;
+	private Pet petMock;
+	private int ownerMockId;
+	private int petMockId;
+
     @Before
     public void setUp() throws Exception {
+    	ownerMockId = 4;
+    	ownerMock = mock(Owner.class);
+    	doReturn(ownerMockId).when(ownerMock).getId();
+
+    	petMockId = 3;
+    	petMock = mock(Pet.class);
+    	doReturn(petMockId).when(petMock).getId();
     }
 
     @After
@@ -35,63 +47,86 @@ public class PetServiceTest {
     }
 
     @Test
-    public void findOwner() {
-		int ownerId = 4;
-		petService.findOwner(ownerId);
-		verify(logger).info("find owner {}", ownerId); // Behavior Verification
-		verify(ownerRepository).findById(ownerId); // Behavior Verification
-
-
-//		int ownerId = 4;
-//		Owner owner = mock(Owner.class);
-//		doReturn(ownerId).when(owner).getId();
-//		doReturn(owner).when(ownerRepository).findById(ownerId);
-//		owner = petService.findOwner(ownerId);
-//		verify(logger).info("find owner {}", ownerId);
-//		verify(ownerRepository).findById(ownerId);
-//		assertEquals((int) owner.getId(), ownerId);
+    public void should_loggerLogProperMessage_findOwner() {//Classical Testing
+		petService.findOwner(ownerMockId);
+		verify(logger).info("find owner {}", ownerMockId); // Behavior Verification
     }
 
-    @Test
-    public void newPet() {
-    	Owner owner = Mockito.mock(Owner.class); //Stub Object
-    	int ownerId = 3;
-    	doReturn(ownerId).when(owner).getId();
+	@Test
+	public void should_findOwnerReturnNullIfOwnerNotExists_findOwner() {//Classical Testing
+		Owner owner = petService.findOwner(ownerMockId);
+		assertNull(owner);
+	}
 
-    	petService.newPet(owner);
-    	verify(logger).info("add pet for owner {}", ownerId); // Behavior Verification
-    	verify(owner).addPet(any()); // Behavior Verification
+	@Test
+	public void should_petserviceReturnProperOwner_findOwner() {//Classical Testing
+		doReturn(ownerMock).when(ownerRepository).findById(ownerMockId);
+		Owner owner = petService.findOwner(ownerMockId);
+		assertEquals((int) owner.getId(), ownerMockId);
+	}
+
+	@Test
+	public void should_findByIdMethodRunOnOwnerRepository_findOwner() {// Mockisty Method
+		petService.findOwner(ownerMockId);
+		verify(ownerRepository).findById(ownerMockId); // Behavior Verification
+	}
+
+
+    @Test
+    public void should_loggerLogProperMessage_newPet() {
+    	petService.newPet(ownerMock);
+    	verify(logger).info("add pet for owner {}", ownerMockId); // Behavior Verification
     }
 
+	@Test
+	public void should_addPetMethodRunOnOwnerRepository_newPet() {
+		petService.newPet(ownerMock);
+		verify(ownerMock).addPet(any()); // Behavior Verification
+	}
+
     @Test
-    public void findPet() {
-    	int petId = 4;
-    	Pet pet = petService.findPet(petId);
+    public void should_findPetReturnNullIfPetNotExists_findPet() {
+    	Pet pet = petService.findPet(petMockId);
 		assertNull(pet); // State Verification
-
-    	pet = mock(Pet.class); // Mock Object
-    	doReturn(petId).when(pet).getId();
-		doReturn(pet).when(petTimedCache).get(petId);
-    	pet = petService.findPet(petId);
-    	assertNotNull(pet);// State Verification
-		assertEquals((int) pet.getId(), petId);// State Verification
-		verify(petTimedCache, times(2)).get(petId);// Behavior Verification
-		verify(logger, times(2)).info("find pet by id {}", petId);// Behavior Verification
-
     }
+
+	@Test
+	public void should_petServiceReturnProperPet_findPet() {
+		doReturn(petMock).when(petTimedCache).get(petMockId);
+		Pet pet = petService.findPet(petMockId);
+		assertNotNull(pet);// State Verification
+		assertEquals((int) pet.getId(), petMockId);// State Verification
+	}
+
+	@Test
+	public void should_loggerLogProperMessage_findPet() {
+		petService.findPet(petMockId);
+		verify(logger).info("find pet by id {}", petMockId);// Behavior Verification
+	}
+
+	@Test
+	public void should_getMethodRunOnPetTimedCache_findPet() {
+		petService.findPet(petMockId);
+		verify(petTimedCache).get(petMockId);// Behavior Verification
+	}
 
     @Test
-    public void savePet() {
-		int petId = 32;
-		Pet pet = mock(Pet.class); // Stub Object
-    	doReturn(petId).when(pet).getId();
-
-    	Owner owner = mock(Owner.class); // Mock Object
-
-    	petService.savePet(pet, owner);
-
-    	verify(owner).addPet(pet); // Behavior Verification
-		verify(petTimedCache).save(pet);// Behavior Verification
-		verify(logger).info("save pet {}", petId);// Behavior Verification
+    public void should_addPetMethodRunOnOwnerMock_savePet() {
+		petService.savePet(petMock, ownerMock);
+    	verify(ownerMock).addPet(petMock); // Behavior Verification
     }
+
+	@Test
+	public void should_loggerLogProperMessage_savePet() {
+		petService.savePet(petMock, ownerMock);
+		verify(logger).info("save pet {}", petMockId);// Behavior Verification
+	}
+
+	@Test
+	public void should_saveMethodRunOnPetTimedCache_savePet() {
+		petService.savePet(petMock, ownerMock);
+		verify(petTimedCache).save(petMock);// Behavior Verification
+	}
+
+
 }
