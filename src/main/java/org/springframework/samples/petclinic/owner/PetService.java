@@ -15,10 +15,7 @@ public class PetService {
 	private final Logger log;
 
 	@Autowired
-	public PetService(
-		PetTimedCache pets,
-		OwnerRepository owners,
-		Logger criticalLogger) {
+	public PetService(PetTimedCache pets, OwnerRepository owners, Logger criticalLogger) {
 		this.pets = pets;
 		this.owners = owners;
 		this.log = criticalLogger;
