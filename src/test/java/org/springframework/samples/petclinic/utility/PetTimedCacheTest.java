@@ -79,7 +79,7 @@ public class PetTimedCacheTest {
 		when(petRepository.findById(testPetId)).thenReturn(testPet);
 		petTimedCache.get(testPetId);
 		try {
-			Thread.sleep(15000);
+			Thread.sleep(18000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
