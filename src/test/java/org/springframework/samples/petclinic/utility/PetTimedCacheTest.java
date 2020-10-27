@@ -53,7 +53,7 @@ public class PetTimedCacheTest {
 	}
 
 	@Test //Behavior verification, mockist
-	public void should_getFromRepository_whenMiss() {
+	public void should_getFromRepositoryWhenMiss_get() {
 		when(petRepository.findById(testPetId)).thenReturn(testPet);
 		petTimedCache.get(testPetId);
 		assertEquals(petTimedCache.get(testPetId), testPet);
@@ -61,7 +61,7 @@ public class PetTimedCacheTest {
 	}
 
 	@Test //Behavior verification, mockist
-	public void should_notCallFindByIdOnRepository_whenHit() {
+	public void should_notCallFindByIdOnRepositoryWhenHit_get() {
 		when(petRepository.findById(testPetId)).thenReturn(testPet);
 		petTimedCache.get(testPetId);
 		petTimedCache.get(testPetId);
@@ -69,13 +69,13 @@ public class PetTimedCacheTest {
 	}
 
 	@Test //Behavior verification, mockist
-	public void should_saveToRepository_whenSave() {
+	public void should_saveToRepositoryWhenSave_save() {
 		petTimedCache.save(testPet);
 		verify(petRepository).save(testPet);
 	}
 
 	@Test //Behavior verification, mockist
-	public void should_miss_afterExpiryTime() {
+	public void should_missAfterExpiryTime_get() {
 		when(petRepository.findById(testPetId)).thenReturn(testPet);
 		petTimedCache.get(testPetId);
 		try {
