@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PetServiceTestNoPetAndOwnerMocks {
+public class PetServiceTestNoPetAndOwnerMocks {// Mockisty
 	@Mock //Mock Object
 	PetTimedCache petTimedCache;
 
@@ -48,7 +48,7 @@ public class PetServiceTestNoPetAndOwnerMocks {
 	@Test
 	public void should_findOwnerReturnNullIfOwnerNotExists_findOwner() {//Classical Testing
 		Owner owner = petService.findOwner(ownerMockId);
-		assertNull(owner);
+		assertNull(owner);// State Verification
 	}
 
 	@Test

@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PetServiceTestOwnerMock {
+public class PetServiceTestOwnerMock { // Mockisty
 	@Mock //Mock Object
 	PetTimedCache petTimedCache;
 
@@ -32,7 +32,7 @@ public class PetServiceTestOwnerMock {
 	@Before
 	public void setUp() throws Exception {
 		ownerMockId = 4;
-		ownerMock = mock(Owner.class);
+		ownerMock = mock(Owner.class); // Mock Object
 		doReturn(ownerMockId).when(ownerMock).getId();
 	}
 
