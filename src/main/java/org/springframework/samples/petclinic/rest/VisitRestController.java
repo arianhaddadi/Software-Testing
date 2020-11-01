@@ -57,7 +57,7 @@ public class VisitRestController {
 	public ResponseEntity<Collection<Visit>> getAllVisits(){
 		Collection<Visit> visits = new ArrayList<Visit>();
 		visits.addAll(this.clinicService.findAllVisits());
-		if (visits.isEmpty()){
+		if (visits.isEmpty()) {
 			return new ResponseEntity<Collection<Visit>>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Collection<Visit>>(visits, HttpStatus.OK);
