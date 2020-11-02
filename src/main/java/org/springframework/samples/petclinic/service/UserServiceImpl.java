@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
             throw new Exception("User must have at least a role set!");
         }
 
-        for (Role role : user.getRoles()) {
-            if(!role.getName().startsWith("ROLE_")) {
+		for (Role role : user.getRoles()) {
+			if(!role.getName().startsWith("ROLE_")) {
                 role.setName("ROLE_" + role.getName());
             }
 
