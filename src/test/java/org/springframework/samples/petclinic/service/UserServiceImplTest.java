@@ -50,8 +50,8 @@ public class UserServiceImplTest {
 
 		HashSet<Role> roles = Mockito.mock(HashSet.class);
 		doReturn(roles).when(user).getRoles();
-		doReturn("ROLE_").when(role).getName();
-		doReturn(user).when(role).getUser();
+		doReturn("RULE").when(role).getName();
+		doReturn(null).when(role).getUser();
 		doReturn(false).when(roles).isEmpty();
 		doReturn(new Iterator<Role>() {
 			private int counter = 0;
@@ -74,5 +74,7 @@ public class UserServiceImplTest {
 
 		userService.saveUser(user);
 		verify(userRepository).save(user);
+		verify(role).setUser(user);
+		verify(role, times(2)).setName("ROLE_" + role.getName());
 	}
 }
