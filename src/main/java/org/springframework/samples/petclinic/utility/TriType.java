@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.utility;
 
 
+import com.github.mryf323.tractatus.ClauseDefinition;
+
 import static java.lang.Math.abs;
 
 /**
@@ -8,6 +10,10 @@ import static java.lang.Math.abs;
  * Java version Feb 2003
  * Classify triangles
  */
+@ClauseDefinition(clause = 'a', def = "x == 0")
+@ClauseDefinition(clause = 'b', def = "y == 0")
+@ClauseDefinition(clause = 'c', def = "z == 0")
+@ClauseDefinition(clause = 'd', def = "w == 0")
 public class TriType {
 	enum TryClass {
 
