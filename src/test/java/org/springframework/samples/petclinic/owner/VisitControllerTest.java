@@ -32,16 +32,16 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.validation.Valid;
 
+import java.util.Map;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(controllers = VisitController.class)
@@ -76,35 +76,29 @@ public class VisitControllerTest {
 	public void should_returnProperHTMLPage_initNewVisitForm() throws Exception {
     	this.mockMvc.perform(get("/owners/aryan/pets/3/visits/new"))
 					.andExpect(status().isOk())
-					.andExpect(content().string(containsString("<html>")));
+					.andExpect(view().name("pets/createOrUpdateVisitForm"));
 	}
 
-//    @Test
-//    public void setAllowedFields() {
-//    }
-//
-//    @Test
-//    public void loadPetWithVisit() {
-//    }
+	@Test
+	public void should_loadPetWithVisitMethodGetsCalledBeforeHandlingRequests_loadPetWithVisit() throws Exception {
+    	// initNewVisitForm
+		this.mockMvc.perform(get("/owners/aryan/pets/3/visits/new"));
+		verify(pets).findById(anyInt());
+		verify(petMock).setVisitsInternal(anyCollection());
+		verify(petMock).addVisit(any(Visit.class));
+
+		// processNewVisitForm
+		this.mockMvc.perform(post("/owners/aryan/pets/3/visits/new"));
+		verify(pets, times(2)).findById(anyInt());
+		verify(petMock, times(2)).setVisitsInternal(anyCollection());
+		verify(petMock, times(2)).addVisit(any(Visit.class));
+	}
 
 	@Test
 	public void should_returnHTMLPage_processNewVisitForm() throws Exception {
-		MvcResult result = this.mockMvc.perform(post("/owners/aryan/pets/3/visits/new"))
-										.andExpect(status().isOk())
-										.andExpect(content().string(containsString("<html>")))
-										.andReturn();
-//		System.out.println(2);
-//		assertEquals("pets/createOrUpdateVisitForm", result.getModelAndView().getView());
+		this.mockMvc.perform(post("/owners/aryan/pets/3/visits/new"))
+					.andExpect(status().isOk())
+					.andExpect(view().name("pets/createOrUpdateVisitForm"))
+					.andExpect(model().hasErrors());
 	}
-
-//	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
-//	public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
-//		if (result.hasErrors()) {
-//			return "pets/createOrUpdateVisitForm";
-//		}
-//		else {
-//			this.visits.save(visit);
-//			return "redirect:/owners/{ownerId}";
-//		}
-//	}
 }
