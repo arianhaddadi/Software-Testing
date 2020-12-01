@@ -1,0 +1,110 @@
+package org.springframework.samples.petclinic.owner;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.samples.petclinic.visit.Visit;
+import org.springframework.samples.petclinic.visit.VisitRepository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.validation.Valid;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+
+import static org.junit.Assert.*;
+
+
+@WebMvcTest(controllers = VisitController.class)
+@RunWith(SpringRunner.class)
+public class VisitControllerTest {
+
+	private MockMvc mockMvc;
+
+	private Pet petMock;
+
+	@MockBean
+	private VisitRepository visits;
+
+	@MockBean
+	PetRepository pets;
+
+	@Autowired
+	private WebApplicationContext webApplicationContext;
+
+    @Before
+    public void setUp() throws Exception {
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+		petMock = Mockito.mock(Pet.class);
+		doReturn(petMock).when(pets).findById(anyInt());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
+
+	@Test
+	public void should_returnProperHTMLPage_initNewVisitForm() throws Exception {
+    	this.mockMvc.perform(get("/owners/aryan/pets/3/visits/new"))
+					.andExpect(status().isOk())
+					.andExpect(content().string(containsString("<html>")));
+	}
+
+//    @Test
+//    public void setAllowedFields() {
+//    }
+//
+//    @Test
+//    public void loadPetWithVisit() {
+//    }
+
+	@Test
+	public void should_returnHTMLPage_processNewVisitForm() throws Exception {
+		MvcResult result = this.mockMvc.perform(post("/owners/aryan/pets/3/visits/new"))
+										.andExpect(status().isOk())
+										.andExpect(content().string(containsString("<html>")))
+										.andReturn();
+//		System.out.println(2);
+//		assertEquals("pets/createOrUpdateVisitForm", result.getModelAndView().getView());
+	}
+
+//	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+//	public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
+//		if (result.hasErrors()) {
+//			return "pets/createOrUpdateVisitForm";
+//		}
+//		else {
+//			this.visits.save(visit);
+//			return "redirect:/owners/{ownerId}";
+//		}
+//	}
+}
