@@ -95,10 +95,18 @@ public class VisitControllerTest {
 	}
 
 	@Test
-	public void should_returnHTMLPage_processNewVisitForm() throws Exception {
-		this.mockMvc.perform(post("/owners/aryan/pets/3/visits/new"))
+	public void should_returnHTMLPageWhenRequestHasBindingErrors_processNewVisitForm() throws Exception {
+		this.mockMvc.perform(post("/owners/aryan/pets/1/visits/new"))
 					.andExpect(status().isOk())
 					.andExpect(view().name("pets/createOrUpdateVisitForm"))
 					.andExpect(model().hasErrors());
+	}
+
+	@Test
+	public void should_redirectWhenRequestHasDescriptionParam_processNewVisitForm() throws Exception {
+		this.mockMvc.perform(post("/owners/aryan/pets/1/visits/new").param("description", "description"))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/owners/{ownerId}"))
+			.andExpect(model().hasNoErrors());
 	}
 }
