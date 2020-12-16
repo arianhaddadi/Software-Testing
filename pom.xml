@@ -248,13 +248,17 @@
         <version>${pitest.version}</version>
         <configuration>
           <targetClasses>
-            <param>org.springframework.samples.petclinic.owner.VisitController</param>
+            <param>org.springframework.samples.petclinic.owner.PetValidator</param>
           </targetClasses>
           <targetTests>
-            <param>org.springframework.samples.petclinic.owner.VisitControllerTests</param>
+            <param>org.springframework.samples.petclinic.owner.PetValidatorTest</param>
           </targetTests>
           <mutators>
             <mutator>ROR</mutator>
+            <mutator>UOI</mutator>
+            <mutator>RETURN_VALS</mutator>
+            <mutator>VOID_METHOD_CALLS</mutator>
+            <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
           </mutators>
         </configuration>
         <dependencies>
