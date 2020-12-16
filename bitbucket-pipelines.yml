@@ -20,4 +20,4 @@ pipelines:
           caches:
             - maven
           script:
-            - mvn test org.pitest:pitest-maven:mutationCoverage --file pom.xml
+            - mvn org.pitest:pitest-maven:mutationCoverage --file pom.xml
