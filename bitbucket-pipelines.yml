@@ -9,12 +9,12 @@ pipelines:
             - maven
           script:
             - mvn compile --file pom.xml
-      # - step:
-      #     name: Test
-      #     caches:
-      #       - maven
-      #     script:
-      #       - mvn test --file pom.xml
+      - step:
+          name: Test
+          caches:
+            - maven
+          script:
+            - mvn test --file pom.xml
       - step:
           name: Mutation Test
           caches:
