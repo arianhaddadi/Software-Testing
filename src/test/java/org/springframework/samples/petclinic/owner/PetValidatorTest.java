@@ -1,26 +1,26 @@
 package org.springframework.samples.petclinic.owner;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class PetValidatorTest {
+class PetValidatorTest {
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
-
-    @Test
-    public void validate() {
+    @AfterEach
+    void tearDown() {
     }
 
     @Test
-    public void supports() {
+    void validate() {
+    }
+
+    @Test
+    void supports() {
     }
 }
