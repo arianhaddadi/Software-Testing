@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
-public class SampleTests {
+public class PetServiceTests {
 
 	@Autowired
 	PetService petService;
@@ -41,6 +41,7 @@ public class SampleTests {
 		// sample setup code
 	}
 
+	// Shared among all
 	@Given("There is a pet owner called {string} {string}")
 	public void thereIsAPetOwnerCalled(String firstName, String lastName) {
 		owner = new Owner();
@@ -52,6 +53,7 @@ public class SampleTests {
 		owners.save(owner);
 	}
 
+	// Find Owner Scenario
 	@When("We perform find Owner service to find him")
 	public void wePerformFindOwnerService() {
 		foundOwner = petService.findOwner(owner.getId());
@@ -62,6 +64,8 @@ public class SampleTests {
 		assertEquals(owner.getId(), foundOwner.getId());
 	}
 
+
+	// New Pet Scenario
 	@When("We perform new Pet service add a pet for him")
 	public void wePerformNewPetService() {
 		addedPet = petService.newPet(owner);
@@ -72,6 +76,7 @@ public class SampleTests {
 		assertEquals(addedPet.getId(), owner.getPets().get(0).getId());
 	}
 
+	// Save Pet Scenario & Find Pet Scenario
 	@Given("There is a pet called {string}")
 	public void thereIsAPetCalled(String name) {
 		PetType petType = new PetType();
@@ -83,6 +88,7 @@ public class SampleTests {
 		pet.setType(petType);
 	}
 
+	// Save Pet Scenario
 	@When("We perform save Pet service on that pet and him")
 	public void wePerformSavePetService() {
 		petService.savePet(pet, owner);
@@ -93,6 +99,7 @@ public class SampleTests {
 		pets.save(pet);
 	}
 
+	// Find Pet Scenario
 	@When("We Set the owner of the pet to be him")
 	public void weSetTheOwnerOfPet() {
 		owner.addPet(pet);
