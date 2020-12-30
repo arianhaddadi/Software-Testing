@@ -77,10 +77,10 @@ public class PetServiceTests {
 	}
 
 	// Save Pet Scenario & Find Pet Scenario
-	@Given("There is a pet called {string}")
-	public void thereIsAPetCalled(String name) {
+	@Given("There is a pet called {string} with type {string}")
+	public void thereIsAPetCalled(String name, String typeName) {
 		PetType petType = new PetType();
-		petType.setName("dog");
+		petType.setName(typeName);
 		petTypeRepository.save(petType);
 
 		pet = new Pet();
