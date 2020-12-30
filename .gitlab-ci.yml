@@ -18,6 +18,7 @@ unit_test:
 behavior_test:
   stage: BDD
   script:
+    - mvn compile
     - mvn compiler:testCompile
     - mvn -Dtest="bdd.BDDEntryPointAcceptanceTest" test
 
